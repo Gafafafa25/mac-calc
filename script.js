@@ -1,12 +1,11 @@
 let screenValue = "0"
-const digits  = document.getElementsByClassName("digit")
+const digits = document.getElementsByClassName("digit")
 for (const btn of digits) {
     btn.addEventListener("click", (e) => {
         const d = e.target.textContent
         if (document.getElementById("screen").innerText === "0") {
             screenValue = d
-        }
-        else {
+        } else {
             screenValue += d
         }
         update()
