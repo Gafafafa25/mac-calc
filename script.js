@@ -28,8 +28,10 @@ document.getElementById("reverse").addEventListener("click", (e) => {
 })
 
 document.getElementById("comma").addEventListener("click", (e) => {
-    screenValue += ","
-    update()
+    if (screenValue[screenValue.length - 1] !== ".") {
+        screenValue += "."
+        update()
+    }
 })
 document.getElementById("percent").addEventListener("click", (e) => {
     screenValue += "%"
@@ -48,7 +50,9 @@ for (const btn of btnActions) {
 document.getElementById("equal").addEventListener("click", (e) => {
     const index = regexIndexOf(screenValue, /[+]/) ///todo: добавить остальные знаки
     b = +screenValue.slice(index + 1)
-    screenValue = a + b + ""
+    if (b > 0 && index > -1 && index < screenValue.length) {
+        screenValue = a + b + ""
+    }
     update()
 })
 
