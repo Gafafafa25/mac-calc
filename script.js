@@ -15,14 +15,37 @@ for (const btn of digits) {
 
 document.getElementById("clearButton").addEventListener("click", (e) => {
     screenValue = "0"
+    action = ""
+    a = 0
+    b = 0
+    update()
+})
+document.getElementById("delButton").addEventListener("click", (e) => {
+    screenValue = screenValue.slice(0, -1)
+    if (screenValue === "") {
+        screenValue = "0"
+    }
     update()
 })
 
 document.getElementById("reverse").addEventListener("click", (e) => {
-    if (Number(screenValue) >= 0) {
-        screenValue = (-Number(screenValue)).toString()
+    if (action === "") {
+        if (Number(screenValue) >= 0) {
+            screenValue = (-Number(screenValue)).toString()
+
+        } else {
+            screenValue = Math.abs(Number(screenValue)) + ""
+        }
     } else {
-        screenValue = Math.abs(Number(screenValue)) + ""
+        const index = regexIndexOf(screenValue, /[+]/) ///todo: добавить остальные знаки
+        let tmp_b = screenValue.slice(index + 1)
+        tmp_b = tmp_b.replace("(", "").replace(")", "")
+        tmp_b = +tmp_b
+        if (tmp_b >= 0) {
+            screenValue = screenValue.slice(0, index + 1) + "(" + (-tmp_b) + ")"
+        } else {
+            screenValue = screenValue.slice(0, index + 1) + Math.abs(tmp_b)
+        }
     }
     update()
 })
@@ -40,6 +63,9 @@ document.getElementById("percent").addEventListener("click", (e) => {
 const btnActions = document.getElementsByClassName("action")
 for (const btn of btnActions) {
     btn.addEventListener("click", (e) => {
+        if (action !== "") {
+            return
+        }
         action = e.target.textContent
         a = +screenValue
         screenValue += action
@@ -49,15 +75,21 @@ for (const btn of btnActions) {
 
 document.getElementById("equal").addEventListener("click", (e) => {
     const index = regexIndexOf(screenValue, /[+]/) ///todo: добавить остальные знаки
-    b = +screenValue.slice(index + 1)
-    if (b > 0 && index > -1 && index < screenValue.length) {
-        screenValue = a + b + ""
-    }
+    b = screenValue.slice(index + 1)
+    b = +(b.replace("(", "").replace(")", ""))
+    screenValue = a + b + ""
     update()
 })
 
 const update = () => {
     document.getElementById("screen").innerText = screenValue
+    if (screenValue === "0") {
+        document.querySelector("#clearButton").style.display = "inline-block"
+        document.querySelector("#delButton").style.display = "none"
+    } else {
+        document.querySelector("#clearButton").style.display = "none"
+        document.querySelector("#delButton").style.display = "inline-block"
+    }
 }
 
 //Tools

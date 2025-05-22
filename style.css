@@ -12,3 +12,7 @@ button {
 .divide, .multi, .minus, .plus, .equal {
     background-color: #FF9502;
 }
+
+.delButton {
+    display: none;
+}
