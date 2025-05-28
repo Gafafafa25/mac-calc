@@ -28,6 +28,8 @@ document.getElementById("delButton").addEventListener("click", (e) => {
     update()
 })
 
+// todo: -2 * 4 = NaN
+//todo: -8 / -8 = NaN
 document.getElementById("reverse").addEventListener("click", (e) => {
     if (action === "") {
         if (Number(screenValue) >= 0) {
@@ -37,8 +39,12 @@ document.getElementById("reverse").addEventListener("click", (e) => {
             screenValue = Math.abs(Number(screenValue)) + ""
         }
     } else {
-        const index = regexIndexOf(screenValue, /[+]/) ///todo: добавить остальные знаки
-        let tmp_b = screenValue.slice(index + 1)
+        let screenValueTmp = screenValue.replace("×", "*")
+        console.log(screenValueTmp)
+        screenValueTmp = screenValueTmp.replace("÷", "/")
+        const index = regexIndexOf(screenValueTmp, /[-+*/]/)
+        let tmp_b = screenValueTmp.slice(index + 1)
+        console.log(tmp_b)
         tmp_b = tmp_b.replace("(", "").replace(")", "")
         tmp_b = +tmp_b
         if (tmp_b >= 0) {
@@ -74,10 +80,24 @@ for (const btn of btnActions) {
 }
 
 document.getElementById("equal").addEventListener("click", (e) => {
-    const index = regexIndexOf(screenValue, /[+]/) ///todo: добавить остальные знаки
-    b = screenValue.slice(index + 1)
+    let screenValueTmp = screenValue.replace("×", "*")
+    screenValueTmp = screenValueTmp.replace("÷", "/")
+    const index = regexIndexOf(screenValueTmp, /[-+*/]/) ///todo: добавить остальные знаки
+    console.log(index)
+    b = screenValueTmp.slice(index + 1)
     b = +(b.replace("(", "").replace(")", ""))
-    screenValue = a + b + ""
+    console.log("1", action)
+    if (action === "+") {
+        screenValue = a + b + ""
+    } else if (action === "-") {
+        screenValue = a - b + ""
+    } else if (action === "×") {
+        screenValue = a * b + ""
+    }
+    else if (action === "÷") {
+        console.log(action, a, b)
+        screenValue = a / b + ""
+    }
     update()
 })
 
@@ -95,7 +115,7 @@ const update = () => {
 //Tools
 // https://stackoverflow.com/questions/273789/javascript-string-indexof-allowing-regular-expressions
 function regexIndexOf(string, regex) {
-    const startpos = 0
+    const startpos = 1
     const indexOf = string.substring(startpos || 0).search(regex);
     return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
 }
