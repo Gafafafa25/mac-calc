@@ -13,6 +13,17 @@ for (const btn of digits) {
     })
 }
 
+//todo: fix mouseover/out
+document.getElementById("square").addEventListener("mouseover", (e) => {
+    document.getElementById("square").style.display = "none"
+    document.getElementById("cross-square").style.display= "block"
+})
+
+document.getElementById("square").addEventListener("mouseout", (e) => {
+    document.getElementById("square").style.display = "block"
+    document.getElementById("cross-square").style.display= "none"
+})
+
 document.getElementById("clearButton").addEventListener("click", (e) => {
     screenValue = "0"
     action = ""
@@ -86,7 +97,6 @@ document.getElementById("equal").addEventListener("click", (e) => {
     console.log(index)
     b = screenValueTmp.slice(index + 1)
     b = +(b.replace("(", "").replace(")", ""))
-    console.log("1", action)
     if (action === "+") {
         screenValue = a + b + ""
     } else if (action === "-") {
@@ -95,9 +105,11 @@ document.getElementById("equal").addEventListener("click", (e) => {
         screenValue = a * b + ""
     }
     else if (action === "÷") {
-        console.log(action, a, b)
         screenValue = a / b + ""
     }
+    const c = eval(a + (action === "×" ? "*" : action === "÷" ? "/" : action) + b)
+    console.log(`${a} ${action} ${b} = ${c}`)
+    //todo: db update
     update()
 })
 
