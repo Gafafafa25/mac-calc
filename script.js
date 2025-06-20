@@ -109,7 +109,17 @@ document.getElementById("equal").addEventListener("click", (e) => {
     }
     const c = eval(a + (action === "×" ? "*" : action === "÷" ? "/" : action) + b)
     console.log(`${a} ${action} ${b} = ${c}`)
-    //todo: db update
+    //db update
+    fetch('http://localhost:3000/insert', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ exp: `${a} ${action} ${b} = ${c}` })
+    })
+        .then(res => res.json())
+        .then(data => console.log('Saved to DB:', data))
+        .catch(err => console.error('Error saving to DB:', err));
     update()
 })
 
