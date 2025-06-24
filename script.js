@@ -39,8 +39,6 @@ document.getElementById("delButton").addEventListener("click", (e) => {
     update()
 })
 
-// todo: -2 * 4 = NaN
-//todo: -8 / -8 = NaN
 document.getElementById("reverse").addEventListener("click", (e) => {
     if (action === "") {
         if (Number(screenValue) >= 0) {
@@ -53,7 +51,7 @@ document.getElementById("reverse").addEventListener("click", (e) => {
         let screenValueTmp = screenValue.replace("×", "*")
         console.log(screenValueTmp)
         screenValueTmp = screenValueTmp.replace("÷", "/")
-        const index = regexIndexOf(screenValueTmp, /[-+*/]/)
+        const index = regexIndexOf(screenValueTmp, /[-+*/%]/)
         let tmp_b = screenValueTmp.slice(index + 1)
         console.log(tmp_b)
         tmp_b = tmp_b.replace("(", "").replace(")", "")
@@ -73,10 +71,10 @@ document.getElementById("comma").addEventListener("click", (e) => {
         update()
     }
 })
-document.getElementById("percent").addEventListener("click", (e) => {
-    screenValue += "%"
-    update()
-})
+// document.getElementById("percent").addEventListener("click", (e) => {
+//     screenValue += "%"
+//     update()
+// })
 const btnActions = document.getElementsByClassName("action")
 for (const btn of btnActions) {
     btn.addEventListener("click", (e) => {
@@ -93,7 +91,7 @@ for (const btn of btnActions) {
 document.getElementById("equal").addEventListener("click", (e) => {
     let screenValueTmp = screenValue.replace("×", "*")
     screenValueTmp = screenValueTmp.replace("÷", "/")
-    const index = regexIndexOf(screenValueTmp, /[-+*/]/) ///todo: добавить остальные знаки
+    const index = regexIndexOf(screenValueTmp, /[-+*/%]/) ///todo: добавить остальные знаки
     console.log(index)
     b = screenValueTmp.slice(index + 1)
     b = +(b.replace("(", "").replace(")", ""))
@@ -106,6 +104,9 @@ document.getElementById("equal").addEventListener("click", (e) => {
     }
     else if (action === "÷") {
         screenValue = a / b + ""
+    }
+    else if (action === "%") {
+        screenValue = a % b + ""
     }
     const c = eval(a + (action === "×" ? "*" : action === "÷" ? "/" : action) + b)
     console.log(`${a} ${action} ${b} = ${c}`)
