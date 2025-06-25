@@ -25,6 +25,7 @@ document.getElementById("square").addEventListener("mouseout", (e) => {
 })
 
 document.getElementById("clearButton").addEventListener("click", (e) => {
+    console.log("AC")
     screenValue = "0"
     action = ""
     a = 0
@@ -32,6 +33,7 @@ document.getElementById("clearButton").addEventListener("click", (e) => {
     update()
 })
 document.getElementById("delButton").addEventListener("click", (e) => {
+    console.log("BS")
     screenValue = screenValue.slice(0, -1)
     if (screenValue === "") {
         screenValue = "0"
@@ -79,6 +81,7 @@ const btnActions = document.getElementsByClassName("action")
 for (const btn of btnActions) {
     btn.addEventListener("click", (e) => {
         if (action !== "") {
+            console.log(action)
             return
         }
         action = e.target.textContent
